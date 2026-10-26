@@ -1129,6 +1129,15 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none} input
 @media (min-width:1080px){
   .lgt.heat col.c-pn{width:210px} .lgt.heat col.c-z{width:76px}
   .lgt.pl2 td{padding-top:6px !important;padding-bottom:6px !important} .lgt.pl2 td.pn small{font-size:10.5px} .lgt.pl2 td.pn b{font-size:14px}
+  .hw{display:grid;grid-template-columns:400px minmax(0,1fr);gap:16px;align-items:start}
+  .hw>.hero{position:sticky;top:76px}
+  .hw .hero .bars{display:flex !important;flex-direction:column;gap:7px !important;margin:12px 22px 0 !important}
+  .hw .hero .bar{display:grid;grid-template-columns:44px minmax(0,1fr) 64px;align-items:center;gap:10px}
+  .hw .hero .bar .k{order:1;margin:0 !important;text-align:left;font-size:13px !important}
+  .hw .hero .bar .t{order:2;height:34px !important;border-radius:8px !important;position:relative;overflow:hidden}
+  .hw .hero .bar .sv{order:3;margin:0 !important;text-align:right !important;font-size:18px !important}
+  .hw .hero .bar .f{top:0 !important;bottom:0 !important;left:0 !important;right:auto !important;height:100% !important;width:var(--p) !important}
+  .hw .hero .bar .n{position:absolute;left:12px;top:0;bottom:0;display:flex;align-items:center;font-size:22px !important;z-index:1}
   body.xw .hin,body.xw .wrap,body.xw footer{max-width:1680px}
   .wm{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;align-items:start}
   .wp{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 !important}
@@ -1564,7 +1573,7 @@ function haramLeague(w, me){
     <td class="pt2">${f1(x.act)}</td><td>${n1(x.exp)}</td><td class="hv ${x.har>0.2?'up':x.har<-0.2?'dn':''}">${Math.abs(x.har) < 0.05 ? '0.0' : (x.har>0?'+':'') + n1(x.har)}</td></tr>${hOpen===x.team ? `<tr class="hdet"><td colspan="6">${haramMine(w, x.team)}</td></tr>` : ''}`).join('');
   return `<div class="card stand hl"><table><thead><tr><th class="rk">#</th>${th('team','Team')}<th>Score</th>${th('act','Got')}${th('exp','Fair')}${th('har','Haram')}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
-function haramView(w, me){ return haramMine(w, me); }
+function haramView(w, me){ return `<div class="hw">${haramMine(w, me)}</div>`; }
 let hSort = st.get('hsort2') === 'rk' ? 'rk' : 'res';   // haram grid: result vs you, best first (default) or league order
 function haramMine(w, me){
   if (!me) return '<div class="card empty">Pick your team at the top.</div>';
@@ -1575,7 +1584,7 @@ function haramMine(w, me){
   const colr = p => p > .55 ? 'color-mix(in srgb,var(--gs) 80%,var(--card))' : p < .45 ? 'color-mix(in srgb,var(--ms) 80%,var(--card))' : 'var(--b)';   // same colors as the grid: beat most = green, lost to most = red
   const avA = (ap.cw + 0.5 * ap.ct) / N, avB = (ap.cl + 0.5 * ap.ct) / N;       // ties count half each: always sums to 9
   const bars = D.cats.map(c => { const n = ap.catwins[c.key], p = n / N;
-    return `<div class="bar" title="${esc(c.name)}: ${n}/${N}"><div class="t"><div class="f" style="height:${Math.max(6,p*100)}%;background:${colr(p)}"></div><div class="n">${n}</div></div><div class="k">${c.short}</div><div class="sv w-only">${fv(c.key, r.vals[c.key])}</div></div>`; }).join('');
+    return `<div class="bar" title="${esc(c.name)}: ${n}/${N}"><div class="t"><div class="f" style="height:${Math.max(6,p*100)}%;--p:${Math.max(4,p*100)}%;background:${colr(p)}"></div><div class="n">${n}</div></div><div class="k">${c.short}</div><div class="sv w-only">${fv(c.key, r.vals[c.key])}</div></div>`; }).join('');
   const ro = a ? a.opp : null;
   const rk = Object.fromEntries(standAt(w, false).map(x => [x.team, x.rank]));
   const byRes = (x,y) => (r.vs[y][0]-r.vs[y][1]) - (r.vs[x][0]-r.vs[x][1]) || r.vs[y][0]-r.vs[x][0] || SN(x).localeCompare(SN(y));
