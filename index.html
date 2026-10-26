@@ -1282,7 +1282,7 @@ th.sv{overflow:visible !important;text-overflow:clip !important}
 }
 @media (min-width:1080px){
   #out > .card.stand{max-width:820px !important}
-  #out > .card.stand tbody td{height:48px !important;padding-top:0 !important;padding-bottom:0 !important;font-size:16px !important}
+  #out > .card.stand tbody td{height:clamp(32px, calc((100vh - 300px) / 14), 48px) !important;padding-top:0 !important;padding-bottom:0 !important;font-size:16px !important}
   #out > .card.stand th:not(.t):not(.rk):not([data-t="team"]),#out > .card.stand td:not(.t):not(.rk){width:110px !important;text-align:center !important}
   #out > .card.stand td.rk,#out > .card.stand th.rk{width:48px !important;text-align:center !important}
   #out > .card.stand td.t,#out > .card.stand th.t{font-size:16px !important;padding-left:18px !important;text-align:left !important} #out > .card.stand th.t{font-size:11px !important}
